@@ -1,0 +1,16 @@
+[project]
+name = "xelixir-cli"
+version = "0.1.0"
+description = "CLI tools for xelixir Excel operations"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+[project.scripts]
+xelixir-tool = "xelixir_cli.tools:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/xelixir_cli"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

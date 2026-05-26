@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "xelixir": {
+      "command": "uv",
+      "args": [
+        "run",
+        "xelixir"
+      ],
+      "env": {
+        "PYTHONPATH": "./src"
+      }
+    }
+  }
+}

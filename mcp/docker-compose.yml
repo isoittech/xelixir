@@ -1,0 +1,28 @@
+services:
+  # Excel MCP Server (FastMCP SSE / HTTP via uv)
+  xelixir:
+    build:
+      # Use the repository root as build context so we can include/compile the Java implementation under /java
+      context: ..
+      dockerfile: mcp/Dockerfile
+    container_name: xelixir
+    # The Dockerfile ENTRYPOINT is `uv run xelixir`, so only pass additional args here
+    command: ["-t", "sse", "-p", "8585"]
+    ports:
+      # Host 8585 -> container 8585 (MCP clients can use http://host.docker.internal:8585/sse)
+      - "8585:8585"
+    restart: unless-stopped
+    environment:
+      # If your Excel tools require additional environment variables (e.g. Java options),
+      # you can define them here.
+      - PYTHONPATH=/app/mcp/src
+      # Public base URL for end-user downloads (required to return download_url)
+      - EXCEL_PUBLIC_BASE_URL=${EXCEL_PUBLIC_BASE_URL}
+      # Container-side directory exposed under /files (defaults to /mnt/data in the server code)
+      - WORKSPACE_DIR=${WORKSPACE_DIR:-/mnt/data}
+    volumes:
+      # LibreChat commonly references files as /mnt/data/... (code tool convention).
+      # Mount the host "workspace files" directory to /mnt/data so the MCP server can read/write those paths.
+      # Configure the host path via MCP_SHARED_DIR (e.g. export MCP_SHARED_DIR=/path/to/uploads).
+      # If not set, it defaults to ./workspace relative to this compose file directory (xelixir/mcp).
+      - ${MCP_SHARED_DIR:-./workspace}:/mnt/data

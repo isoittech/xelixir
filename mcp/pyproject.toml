@@ -1,0 +1,21 @@
+[project]
+name = "xelixir"
+version = "0.1.0"
+description = "MCP server for Excel operations backed by Java tools"
+requires-python = ">=3.11"
+# readme intentionally omitted for local MCP usage
+license = { text = "MIT" }
+
+dependencies = [
+  "fastmcp>=0.3.0",
+]
+
+[project.scripts]
+xelixir = "xelixir:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
